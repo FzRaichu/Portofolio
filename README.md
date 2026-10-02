@@ -4,7 +4,7 @@ A Next.js 16 / React 19 portfolio with a space-themed landing page, starfield, a
 
 ## Development direction
 
-See [the development plan](docs/DEVELOPMENT_PLAN.md) for the proposed continuous 3D journey, friend birthday pages, developer dashboard, Supabase migration, and daily GitHub milestones. [The Astra prompt](docs/ASTRA_PROMPT.md) starts with a focused local 3D prototype. These planned features are not all implemented yet; the configuration below describes the current application.
+See [the seven-session development plan](docs/DEVELOPMENT_PLAN.md) for layout, personal content, early Supabase/Vercel/domain deployment, developer tools, and gift access. Use [the daily Astra/Sol prompts](docs/DAILY_PROMPTS.md), starting with [Day 1's Astra prompt](docs/ASTRA_PROMPT.md). Follow [the Git workflow](docs/GIT_WORKFLOW.md) and update [the checkpoint](docs/PROGRESS.md) between sessions. These planned features are not all implemented yet; the configuration below describes the current application.
 
 ## Run locally
 
