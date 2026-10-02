@@ -12,6 +12,8 @@
 
 # testing
 /coverage
+/playwright-report/
+/test-results/
 
 # next.js
 /.next/
@@ -36,6 +38,14 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# Supabase CLI local state; keep migrations, config and safe seeds tracked
+/supabase/.temp/
+/supabase/.branches/
+
+# Private exports and local fixtures; never put real gift data in Git
+/private/
+/backups/
 
 # typescript
 *.tsbuildinfo
