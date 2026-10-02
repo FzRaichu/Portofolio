@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ferciano's portfolio
 
-## Getting Started
+A Next.js 16 / React 19 portfolio with a space-themed landing page, starfield, accessible section navigation, searchable projects, a terminal, an owner editor, and a private contact inbox.
 
-First, run the development server:
+## Development direction
 
-```bash
+See [the development plan](docs/DEVELOPMENT_PLAN.md) for the proposed continuous 3D journey, friend birthday pages, developer dashboard, Supabase migration, and daily GitHub milestones. [The Astra prompt](docs/ASTRA_PROMPT.md) starts with a focused local 3D prototype. These planned features are not all implemented yet; the configuration below describes the current application.
+
+## Run locally
+
+```sh
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000. Scroll, enter a visitor name, or use Skip to enter. The portfolio works without service credentials; contact delivery and persistent editing need the configuration below.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Content
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `src/lib/data.ts`: default profile, skills, projects, fun facts, and music. Projects and skills still contain template content pending real project details.
+- Owner mode: enter **Ferciano** at the landing page and then your password. Edit name and role directly. Expand **Edit profile & links** for the bio, tagline, location, education, email, social links, and resume. Fields save on blur; errors are shown instead of pretending a save worked.
+- Leave optional social links or resume blank to hide them. To use a local resume, place your actual PDF in `public/resume.pdf` and set the resume URL to `/resume.pdf`.
+- Saved Redis values override file defaults. New field updates use `portfolio:site-content:fields`; legacy `portfolio:site-content` values are still read.
+- Section links such as `/#projects` can be shared. Native scrolling preserves form and terminal state while browsing.
 
-## Learn More
+## Configure owner access, storage, and email
 
-To learn more about Next.js, take a look at the following resources:
+Copy `.env.example` to `.env.local` and supply your own credentials. Restart the dev server after changing them.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Variable | Purpose |
+| --- | --- |
+| `SESSION_SECRET` | A long random secret for signed owner sessions |
+| `AUTH_PASSWORD_HASH_B64` | Base64-encoded bcrypt hash of your owner password |
+| `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` | Persistent profile fields and private inbox messages |
+| `RESEND_API_KEY` | Optional email delivery for contact submissions |
+| `RESEND_FROM_EMAIL` | Sender on your verified Resend domain; defaults to Resend's testing sender |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Generate a session secret locally with `node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"`. Generate your password's bcrypt hash with bcryptjs, then encode the resulting hash as base64. Never commit `.env.local` or put your password in tracked source files.
 
-## Deploy on Vercel
+A contact submission succeeds if it is stored in Redis or accepted by Resend. If both fail or neither is configured, the visitor receives an error with your direct email address. Email notifications use the current saved profile email. The inbox requires Redis; email-only messages will not appear there.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Verify changes
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```sh
+npm run lint
+npm run typecheck
+npm test
+npm run build
+```
+
+Tests use in-memory mocks and never send email or write to Redis. They cover delivery failures, input validation, unsafe links, and session tampering/expiry.
+
+The build downloads Geist fonts through `next/font/google`, so the first build requires network access to Google Fonts. The installed Next.js guides are in `node_modules/next/dist/docs/`; read the relevant guide before changing framework APIs.
