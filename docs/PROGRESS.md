@@ -7,6 +7,8 @@ Updated: 3 October 2026.
 Branch: `codex/day-01-layout`.
 Implementation: `c40ef6e` — `feat(scene): build continuous space portfolio layout`.
 
+The implementation and checkpoint are pushed to `origin/codex/day-01-layout`. PR creation was denied by the GitHub integration (`403: Resource not accessible by integration`); the in-app browser is also signed out. [Open the Day 1 pull request](https://github.com/FzRaichu/Portofolio/pull/new/codex/day-01-layout) from the owner's GitHub session. No PR or merge has been created.
+
 - Complete responsive Introduction, About, Skills, Projects, and Contact layouts, preserving Ferciano's existing profile and contact information.
 - One persistent public Three.js Canvas: seeded stars and an abstract wireframe sculpture follow a shared, smoothly interpolated scroll timeline. The sculpture changes position, scale, orientation, and brightness, receding for a calm contact chapter. No planet navigation.
 - Native scrolling with gentle desktop proximity snapping. Actual chapter positions account for expanded content; mobile menu handoffs wait for the dialog to release focus/scroll locking. Hash navigation, browser history, keyboard focus, and the command menu remain usable.
