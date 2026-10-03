@@ -28,6 +28,8 @@ Open http://localhost:3000. The public portfolio opens directly; scroll through 
 
 The public page uses one lazy-loaded React Three Fiber Canvas with an abstract wireframe sculpture and seeded starfield. `src/lib/journey.ts` defines the five interpolated poses; `src/components/three/space-scene.tsx` renders them. Actual section positions drive the shared timeline, including expanded terminal content and tall project grids. `src/app/journey.css` contains the responsive visual system.
 
+Foreground chapters also move through depth and alternate their arrival direction as you scroll. Skills assemble in rows and project cards fan into view; scrolling back reverses the effects. `src/lib/chapter-motion.ts` defines bounded viewport-based poses and `src/app/chapter-motion.css` controls the choreography. Tall content stays in its reading pose, focused inputs stay stationary, and smaller screens use gentler movement. These effects share the existing scroll listener and require no additional animation library.
+
 Desktop scrolling uses proximity snapping; phones and tablets retain native scrolling. **Motion on / Still view** switches between animation and the CSS fallback. Device reduced-motion preferences also select the still experience. Rendering pauses when the document is hidden, uses fewer particles and capped pixel density on smaller screens, and lowers pixel density after sustained slow frames. WebGL initialization errors or context loss leave the public HTML and static atmosphere available.
 
 ## Configure owner access, storage, and email

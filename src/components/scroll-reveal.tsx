@@ -1,9 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
-import { useMotionSetting } from "@/lib/browser-state";
 
 export function ScrollReveal({
   children,
@@ -14,17 +12,12 @@ export function ScrollReveal({
   className?: string;
   delay?: number;
 }) {
-  const { paused: reducedMotion } = useMotionSetting();
   return (
-    <motion.div
-      initial={reducedMotion ? false : { opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, x: 0, y: 0, rotate: 0 }}
-      viewport={{ once: true, margin: "-20px" }}
-      transition={{ duration: 0.7, ease: "easeOut", delay }}
-      style={{ transformOrigin: "bottom left" }}
-      className={cn(className)}
+    <div
+      style={{ "--reveal-order": 1 + delay * 5 } as React.CSSProperties}
+      className={cn("scroll-reveal", className)}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

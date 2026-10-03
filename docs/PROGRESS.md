@@ -19,6 +19,14 @@ The implementation and checkpoint are pushed to `origin/codex/day-01-layout`. PR
 
 ## Verification performed
 
+### Day 1 follow-up: animated chapter transitions
+
+- Added reversible foreground choreography inspired by the requested [Davide Cattaneo reference](https://davidecattaneo.it/en): perspective departure, alternating lateral entrances, masked headings, staggered skill rows, fanning project cards, and a calm contact arrival. Decorative coordinates and light lines mark the transitions.
+- Native scroll drives CSS transforms through the existing single animation-frame listener. Layout measurements ignore transformed positions; filtered cards and expanded content are remeasured. No wheel interception, navigation lock, or extra animation dependency was introduced.
+- Tall chapters retain a neutral reading pose; inputs and inline editing get a stationary surface. Compact screens reduce motion strength. Still view and device reduced motion disable foreground effects along with the background.
+- Follow-up browser checks: desktop 1280px and mobile 390px, forward/reverse transforms, project filters and restored cards, modal dismissal/focus return, mobile navigation, contact text retention, no horizontal overflow, and Still view removing all chapter transforms and the Canvas. No real message was submitted.
+- Follow-up suite: lint, typecheck, **13 tests**, and production build passed. Three new tests cover tall-content stability, direction/reversibility, and bounded compact motion. Physical-device performance and forced GPU-loss checks remain part of Day 7.
+
 - `npm run lint` — passed.
 - `npm run typecheck` — passed.
 - `npm test` — 10 passed, 0 failed. Includes three scene timeline tests plus seven existing contact, validation, and session regressions.

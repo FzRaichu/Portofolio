@@ -1,0 +1,154 @@
+/* Scroll scrubs both the arrival and departure; no timers or wheel interception. */
+.chapter-motion-enabled .chapter {
+  overflow: clip;
+  perspective: 1300px;
+  perspective-origin: 50% 45%;
+}
+.chapter-motion-enabled .chapter > .chapter-inner {
+  transform: translate3d(
+      var(--chapter-x, 0px),
+      var(--chapter-y, 0px),
+      var(--chapter-depth, 0px)
+    )
+    rotateX(var(--chapter-tilt, 0deg)) rotateY(var(--chapter-turn, 0deg))
+    scale(var(--chapter-scale, 1));
+  opacity: var(--chapter-opacity, 1);
+  transform-origin: 50% 42%;
+}
+.chapter-motion-enabled .chapter[data-in-transit="true"] > .chapter-inner {
+  will-change: transform, opacity;
+}
+.chapter-motion-enabled .chapter::before {
+  content: attr(data-coordinate) / "";
+  position: absolute;
+  left: 7%;
+  top: 12%;
+  font-size: clamp(150px, 28vw, 420px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.1em;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--space-accent);
+  opacity: calc((var(--chapter-enter, 0) + var(--chapter-exit, 0)) * 0.2);
+  transform: translateX(
+    calc(var(--chapter-enter, 0) * -80px + var(--chapter-exit, 0) * 100px)
+  );
+  pointer-events: none;
+}
+.chapter-motion-enabled .chapter::after {
+  content: "";
+  position: absolute;
+  inset: 5% 8% auto;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--space-accent),
+    transparent
+  );
+  opacity: calc(var(--chapter-enter, 0) * 0.55);
+  transform: scaleX(calc(1 - var(--chapter-enter, 0) * 0.8)) rotate(-8deg);
+  pointer-events: none;
+}
+.chapter-motion-enabled .scroll-reveal {
+  transform: translate3d(
+    0,
+    calc(var(--reveal-progress, 0) * var(--reveal-order, 1) * 70px),
+    0
+  );
+}
+.chapter-motion-enabled .section-title {
+  clip-path: inset(0 0 calc(var(--chapter-enter, 0) * 75%) 0);
+}
+.chapter-motion-enabled .section-title .text-dim {
+  display: inline-block;
+  transform: translateX(calc(var(--chapter-enter, 0) * 70px));
+}
+.chapter-motion-enabled .about-copy {
+  transform: translateX(calc(var(--chapter-enter, 0) * 110px));
+}
+.chapter-motion-enabled .skill-groups > :nth-child(2) {
+  --row-direction: -1;
+}
+.chapter-motion-enabled .skill-row {
+  transform: translateX(
+      calc(var(--reveal-progress, 0) * var(--row-direction, 1) * 150px)
+    )
+    rotate(calc(var(--reveal-progress, 0) * var(--row-direction, 1) * 3deg));
+  transform-origin: left center;
+}
+.chapter-motion-enabled .work-grid {
+  perspective: 1000px;
+}
+.chapter-motion-enabled .work-grid > :nth-child(3n + 1) {
+  --card-direction: -1;
+}
+.chapter-motion-enabled .work-grid > :nth-child(3n + 2) {
+  --card-direction: 0;
+}
+.chapter-motion-enabled .work-grid > :nth-child(3n) {
+  --card-direction: 1;
+}
+.chapter-motion-enabled .work-grid > .scroll-reveal {
+  transform: translate3d(
+      calc(var(--reveal-progress, 0) * var(--card-direction, 0) * -130px),
+      calc(var(--reveal-progress, 0) * var(--reveal-order, 1) * 100px),
+      calc(var(--reveal-progress, 0) * -120px)
+    )
+    rotate(calc(var(--reveal-progress, 0) * var(--card-direction, 0) * 12deg));
+  transform-origin: center bottom;
+}
+.chapter-motion-enabled .contact-form-panel {
+  transform: translateY(calc(var(--chapter-enter, 0) * 160px))
+    scale(calc(1 - var(--chapter-enter, 0) * 0.08));
+  transform-origin: center bottom;
+}
+/* Editing or composing a message always gets a stable, fully legible surface. */
+.chapter-motion-enabled
+  .chapter:has(input:focus, textarea:focus, [contenteditable="true"]:focus) {
+  --chapter-enter: 0 !important;
+  --chapter-exit: 0 !important;
+}
+.chapter-motion-enabled
+  .chapter:has(input:focus, textarea:focus, [contenteditable="true"]:focus)
+  > .chapter-inner {
+  transform: none;
+  opacity: 1;
+}
+@media (max-width: 1023px) {
+  .chapter-motion-enabled .chapter::before {
+    font-size: 180px;
+  }
+  .chapter-motion-enabled .scroll-reveal,
+  .chapter-motion-enabled .about-copy,
+  .chapter-motion-enabled .skill-row,
+  .chapter-motion-enabled .work-grid > .scroll-reveal,
+  .chapter-motion-enabled .contact-form-panel {
+    transform: translateY(calc(var(--chapter-enter, 0) * 30px));
+  }
+  .chapter-motion-enabled .section-title {
+    clip-path: none;
+  }
+  .chapter-motion-enabled .section-title .text-dim {
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chapter-motion-enabled .chapter > .chapter-inner,
+  .chapter-motion-enabled .scroll-reveal,
+  .chapter-motion-enabled .about-copy,
+  .chapter-motion-enabled .skill-row,
+  .chapter-motion-enabled .work-grid > .scroll-reveal,
+  .chapter-motion-enabled .contact-form-panel,
+  .chapter-motion-enabled .section-title .text-dim {
+    transform: none;
+    opacity: 1;
+  }
+  .chapter-motion-enabled .section-title {
+    clip-path: none;
+  }
+  .chapter-motion-enabled .chapter::before,
+  .chapter-motion-enabled .chapter::after {
+    display: none;
+  }
+}
