@@ -1,43 +1,43 @@
+import { ArrowUpRight } from "lucide-react";
 import { ScrollReveal } from "@/components/scroll-reveal";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { skills } from "@/lib/data";
-
 export function Skills() {
   return (
-    <section
-      id="skills"
-      className="flex min-h-full flex-col justify-center border-t border-border/60 bg-muted/20"
-    >
-      <div className="mx-auto w-full max-w-5xl px-6 py-24">
-        <ScrollReveal>
-          <p className="mb-2 font-mono text-sm text-muted-foreground">
-            02 — skills
+    <section id="skills" data-chapter className="chapter skills-chapter">
+      <div className="chapter-inner">
+        <div className="skills-copy">
+          <ScrollReveal>
+            <p className="eyebrow">03 / THE TOOLKIT</p>
+            <h2 className="section-title">
+              Different tools.
+              <br />
+              <span className="text-dim">Shared curiosity.</span>
+            </h2>
+            <p className="section-intro">
+              The languages, frameworks, and tools behind the work.
+            </p>
+          </ScrollReveal>
+          <div className="skill-groups">
+            {skills.map((group, index) => (
+              <ScrollReveal key={group.category} delay={index * 0.06}>
+                <div className="skill-row">
+                  <span className="skill-index">0{index + 1}</span>
+                  <div>
+                    <h3>{group.category}</h3>
+                    <div className="skill-items">
+                      {group.items.map((item) => (
+                        <span key={item}>{item}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <ArrowUpRight size={16} className="skill-arrow" />
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+          <p className="section-note">
+            Starter skill list · personal details will be refined next.
           </p>
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            What I work with
-          </h2>
-        </ScrollReveal>
-
-        <div className="mt-12 grid gap-6 sm:grid-cols-3">
-          {skills.map((group, i) => (
-            <ScrollReveal key={group.category} delay={i * 0.1}>
-              <Card className="h-full">
-                <CardHeader>
-                  <CardTitle className="font-mono text-base">
-                    {group.category}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="flex flex-wrap gap-2">
-                  {group.items.map((item) => (
-                    <Badge key={item} variant="outline">
-                      {item}
-                    </Badge>
-                  ))}
-                </CardContent>
-              </Card>
-            </ScrollReveal>
-          ))}
         </div>
       </div>
     </section>

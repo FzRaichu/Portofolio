@@ -1,6 +1,6 @@
 # Ferciano's portfolio
 
-A Next.js 16 / React 19 portfolio with a space-themed landing page, starfield, accessible section navigation, searchable projects, a terminal, an owner editor, and a private contact inbox.
+A Next.js 16 / React 19 portfolio with a continuous Three.js space journey, accessible section navigation, searchable projects, a terminal, an owner editor, and a private contact inbox.
 
 ## Development direction
 
@@ -13,15 +13,22 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000. Scroll, enter a visitor name, or use Skip to enter. The portfolio works without service credentials; contact delivery and persistent editing need the configuration below.
+Open http://localhost:3000. The public portfolio opens directly; scroll through Introduction, About, Skills, Projects, and Contact. The discreet **For you** entry opens the optional visitor/owner dialog. Friend gift access is planned for Day 5. The portfolio works without service credentials; contact delivery and persistent editing need the configuration below.
 
 ## Content
 
 - `src/lib/data.ts`: default profile, skills, projects, fun facts, and music. Projects and skills still contain template content pending real project details.
-- Owner mode: enter **Ferciano** at the landing page and then your password. Edit name and role directly. Expand **Edit profile & links** for the bio, tagline, location, education, email, social links, and resume. Fields save on blur; errors are shown instead of pretending a save worked.
+- Owner mode: open **For you**, enter **Ferciano**, then your existing owner credential. Edit name and role directly. Expand **Edit profile & links** for the bio, tagline, location, education, email, social links, and resume. Fields save on blur; errors are shown instead of pretending a save worked.
 - Leave optional social links or resume blank to hide them. To use a local resume, place your actual PDF in `public/resume.pdf` and set the resume URL to `/resume.pdf`.
 - Saved Redis values override file defaults. New field updates use `portfolio:site-content:fields`; legacy `portfolio:site-content` values are still read.
 - Section links such as `/#projects` can be shared. Native scrolling preserves form and terminal state while browsing.
+- Open **For the curious** in About for the terminal and fun facts. Existing `/#fun` links open this disclosure.
+
+## Scene and motion
+
+The public page uses one lazy-loaded React Three Fiber Canvas with an abstract wireframe sculpture and seeded starfield. `src/lib/journey.ts` defines the five interpolated poses; `src/components/three/space-scene.tsx` renders them. Actual section positions drive the shared timeline, including expanded terminal content and tall project grids. `src/app/journey.css` contains the responsive visual system.
+
+Desktop scrolling uses proximity snapping; phones and tablets retain native scrolling. **Motion on / Still view** switches between animation and the CSS fallback. Device reduced-motion preferences also select the still experience. Rendering pauses when the document is hidden, uses fewer particles and capped pixel density on smaller screens, and lowers pixel density after sustained slow frames. WebGL initialization errors or context loss leave the public HTML and static atmosphere available.
 
 ## Configure owner access, storage, and email
 
@@ -48,6 +55,6 @@ npm test
 npm run build
 ```
 
-Tests use in-memory mocks and never send email or write to Redis. They cover delivery failures, input validation, unsafe links, and session tampering/expiry.
+Tests use in-memory mocks and never send email or write to Redis. They cover delivery failures, input validation, unsafe links, session tampering/expiry, variable-height chapter alignment, and continuous scene interpolation.
 
 The build downloads Geist fonts through `next/font/google`, so the first build requires network access to Google Fonts. The installed Next.js guides are in `node_modules/next/dist/docs/`; read the relevant guide before changing framework APIs.

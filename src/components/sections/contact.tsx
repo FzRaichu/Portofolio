@@ -1,129 +1,122 @@
 "use client";
-
 import { useActionState } from "react";
-import { Mail, Send } from "lucide-react";
+import { ArrowUpRight, ArrowUp } from "lucide-react";
 import { sendContactMessage, type ContactState } from "@/app/actions/contact";
-import { GithubIcon, InstagramIcon, LinkedinIcon } from "@/components/icons";
 import { ScrollReveal } from "@/components/scroll-reveal";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useEditMode } from "@/lib/edit-mode";
-
+import { useSectionNav } from "@/lib/section-nav";
 const initialState: ContactState = { status: "idle", message: "" };
-
 export function Contact() {
   const [state, formAction, pending] = useActionState(
     sendContactMessage,
-    initialState
+    initialState,
   );
   const { content } = useEditMode();
-
+  const { goToId } = useSectionNav();
+  const socials = [
+    ["GitHub", content.githubUrl],
+    ["LinkedIn", content.linkedinUrl],
+    ["Instagram", content.instagramUrl],
+  ].filter(([, url]) => Boolean(url));
   return (
-    <section
-      id="contact"
-      className="mx-auto flex min-h-full max-w-2xl flex-col justify-center px-6 py-24"
-    >
-      <ScrollReveal>
-        <p className="mb-2 font-mono text-sm text-muted-foreground">
-          05 — say hi
-        </p>
-        <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-          Let&apos;s talk
-        </h2>
-        <p className="mt-3 text-muted-foreground">
-          Have a project in mind, a question, or something interesting to share?
-          I&apos;d like to hear from you.
-        </p>
-      </ScrollReveal>
-
-      <ScrollReveal delay={0.1}>
-        <form action={formAction} className="mt-10 space-y-4">
-          <div className="grid gap-4 sm:grid-cols-2">
-            <label className="grid gap-2 text-sm">Name<Input name="name" autoComplete="name" placeholder="Your name" maxLength={100} required /></label>
-            <label className="grid gap-2 text-sm">Email<Input name="email" type="email" autoComplete="email" placeholder="you@example.com" maxLength={254} required /></label>
-          </div>
-          <label className="grid gap-2 text-sm">Message<Textarea
-            name="message"
-            placeholder="What's up?"
-            rows={5}
-            maxLength={5000}
-            required
-          /></label>
-          <div className="flex flex-wrap items-center gap-4">
-            <Button type="submit" disabled={pending}>
-              <Send className="size-4" />
-              {pending ? "Sending..." : "Send message"}
-            </Button>
-            {state.message && (
-              <p
-                role="status"
-                aria-live="polite"
-                className={
-                  state.status === "success"
-                    ? "text-sm text-green-600 dark:text-green-400"
-                    : "text-sm text-muted-foreground"
-                }
+    <section id="contact" data-chapter className="chapter contact-chapter">
+      <div className="chapter-inner">
+        <div className="contact-grid">
+          <ScrollReveal className="contact-copy">
+            <p className="eyebrow">05 / MAKE CONTACT</p>
+            <h2 className="section-title">
+              Every good thing
+              <br />
+              starts with <span className="text-dim">hello.</span>
+            </h2>
+            <p className="section-intro">
+              An idea, a question, or just a conversation.
+              <br />
+              I&apos;d like to hear from you.
+            </p>
+            <a className="contact-email" href={"mailto:" + content.email}>
+              {content.email}
+              <ArrowUpRight size={20} />
+            </a>
+            <div className="social-links">
+              {socials.map(([label, url]) => (
+                <a key={label} href={url} target="_blank" rel="noreferrer">
+                  {label}
+                  <ArrowUpRight size={13} />
+                </a>
+              ))}
+            </div>
+          </ScrollReveal>
+          <ScrollReveal delay={0.1} className="contact-form-panel">
+            <p className="micro-label">LEAVE A MESSAGE</p>
+            <form action={formAction} className="contact-form">
+              <div className="contact-fields">
+                <label>
+                  Your name
+                  <input
+                    name="name"
+                    autoComplete="name"
+                    placeholder="How should I call you?"
+                    maxLength={100}
+                    required
+                  />
+                </label>
+                <label>
+                  Email address
+                  <input
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    placeholder="you@example.com"
+                    maxLength={254}
+                    required
+                  />
+                </label>
+              </div>
+              <label>
+                What&apos;s on your mind?
+                <textarea
+                  name="message"
+                  placeholder="Tell me a little about it..."
+                  rows={4}
+                  maxLength={5000}
+                  required
+                />
+              </label>
+              <button
+                type="submit"
+                disabled={pending}
+                className="action-primary"
               >
-                {state.message}
-              </p>
-            )}
-          </div>
-        </form>
-      </ScrollReveal>
-
-      <ScrollReveal delay={0.15} className="mt-6 text-sm text-muted-foreground">
-        prefer email? reach me directly at{" "}
-        <a href={`mailto:${content.email}`} className="underline underline-offset-4">
-          {content.email}
-        </a>
-      </ScrollReveal>
-
-      <ScrollReveal
-        delay={0.2}
-        className="mt-16 flex flex-col items-center gap-4 border-t border-border/60 pt-6 text-sm text-muted-foreground sm:flex-row sm:justify-between"
-      >
-        <p className="font-mono">
-          © {new Date().getFullYear()} {content.name} — built with Next.js
-          &amp; way too much coffee.
-        </p>
-        <div className="flex items-center gap-4">
-          {content.githubUrl && <a
-            href={content.githubUrl}
-            target="_blank"
-            rel="noreferrer"
-            aria-label="GitHub"
-            className="transition-colors hover:text-foreground"
-          >
-            <GithubIcon className="size-4" />
-          </a>}
-          {content.linkedinUrl && <a
-            href={content.linkedinUrl}
-            target="_blank"
-            rel="noreferrer"
-            aria-label="LinkedIn"
-            className="transition-colors hover:text-foreground"
-          >
-            <LinkedinIcon className="size-4" />
-          </a>}
-          {content.instagramUrl && <a
-            href={content.instagramUrl}
-            target="_blank"
-            rel="noreferrer"
-            aria-label="Instagram"
-            className="transition-colors hover:text-foreground"
-          >
-            <InstagramIcon className="size-4" />
-          </a>}
-          <a
-            href={`mailto:${content.email}`}
-            aria-label="Email"
-            className="transition-colors hover:text-foreground"
-          >
-            <Mail className="size-4" />
-          </a>
+                {pending ? "Sending..." : "Send message"}
+                <ArrowUpRight size={16} />
+              </button>
+              {state.message && (
+                <p
+                  role="status"
+                  aria-live="polite"
+                  className={
+                    state.status === "success"
+                      ? "form-success"
+                      : "form-feedback"
+                  }
+                >
+                  {state.message}
+                </p>
+              )}
+            </form>
+          </ScrollReveal>
         </div>
-      </ScrollReveal>
+        <footer className="portfolio-footer">
+          <p>
+            © {new Date().getFullYear()} {content.name}
+          </p>
+          <span>Made with curiosity. Built for the web.</span>
+          <button type="button" onClick={() => goToId("home")}>
+            Back to the stars <ArrowUp size={13} />
+          </button>
+        </footer>
+      </div>
     </section>
   );
 }

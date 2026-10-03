@@ -1,60 +1,91 @@
 "use client";
-
-import { GraduationCap, MapPin } from "lucide-react";
+import { ArrowUpRight, TerminalSquare } from "lucide-react";
 import { ScrollReveal } from "@/components/scroll-reveal";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
+import { Terminal } from "@/components/terminal";
+import { GithubGraph } from "@/components/github-graph";
 import { useEditMode } from "@/lib/edit-mode";
+import { funFacts, nowPlaying } from "@/lib/data";
 
 export function About() {
   const { content } = useEditMode();
-  const initials = content.name
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .slice(0, 2);
-
   return (
-    <section
-      id="about"
-      className="mx-auto flex min-h-full max-w-5xl flex-col justify-center px-6 py-24"
-    >
-      <ScrollReveal>
-        <p className="mb-2 font-mono text-sm text-muted-foreground">
-          01 — about
-        </p>
-        <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-          Who I am
-        </h2>
-      </ScrollReveal>
-
-      <div className="mt-12 grid gap-12 sm:grid-cols-[auto_1fr]">
-        <ScrollReveal delay={0.1}>
-          <Avatar className="size-28 border">
-            <AvatarFallback className="font-mono text-2xl">
-              {initials}
-            </AvatarFallback>
-          </Avatar>
-        </ScrollReveal>
-
-        <ScrollReveal delay={0.15} className="space-y-4">
-          <div className="flex flex-wrap gap-2">
-            {content.education && <Badge variant="secondary" className="gap-1.5">
-              <GraduationCap className="size-3.5" />
-              {content.education}
-            </Badge>}
-            <Badge variant="secondary" className="gap-1.5">
-              <MapPin className="size-3.5" />
-              {content.location}
-            </Badge>
-          </div>
-
-          {content.bio.split(/\n\s*\n/).map((paragraph, i) => (
-            <p key={i} className="leading-relaxed text-muted-foreground">
-              {paragraph}
-            </p>
-          ))}
-        </ScrollReveal>
+    <section id="about" data-chapter className="chapter about-chapter">
+      <div className="chapter-inner about-grid">
+        <div className="chapter-aside" aria-hidden="true">
+          <span className="micro-label">01 — THE PERSON</span>
+          <span className="aside-caption">
+            Always a work
+            <br />
+            in progress.
+          </span>
+        </div>
+        <div className="about-copy">
+          <ScrollReveal>
+            <p className="eyebrow">02 / ABOUT</p>
+            <h2 className="section-title">
+              Curiosity,
+              <br />
+              <span className="text-dim">in progress.</span>
+            </h2>
+          </ScrollReveal>
+          <ScrollReveal delay={0.08}>
+            <div className="about-bio">
+              {content.bio.split(/\n\s*\n/).map((paragraph, index) => (
+                <p key={index}>{paragraph}</p>
+              ))}
+            </div>
+            <div className="identity-lines">
+              <div>
+                <span>LOCATION</span>
+                <p>{content.location}</p>
+              </div>
+              <div>
+                <span>FOCUS</span>
+                <p>{content.role}</p>
+              </div>
+              {content.education && (
+                <div>
+                  <span>EDUCATION</span>
+                  <p>{content.education}</p>
+                </div>
+              )}
+            </div>
+            {content.linkedinUrl && (
+              <a
+                href={content.linkedinUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="text-link"
+              >
+                A little more about me <ArrowUpRight size={15} />
+              </a>
+            )}
+            <details data-terminal className="terminal-disclosure" id="fun">
+              <summary>
+                <TerminalSquare size={16} />
+                <span>For the curious</span>
+                <span className="disclosure-plus">+</span>
+              </summary>
+              <div className="terminal-content">
+                <p className="section-note">
+                  A little terminal to explore. Try <code>help</code>.
+                </p>
+                <Terminal />
+                <div className="fun-facts">
+                  {funFacts.map((fact) => (
+                    <p key={fact}>{fact}</p>
+                  ))}
+                  {nowPlaying.song && (
+                    <p>
+                      On repeat: {nowPlaying.song} — {nowPlaying.artist}
+                    </p>
+                  )}
+                </div>
+                <GithubGraph />
+              </div>
+            </details>
+          </ScrollReveal>
+        </div>
       </div>
     </section>
   );

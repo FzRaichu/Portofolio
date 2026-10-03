@@ -3,7 +3,7 @@
 import * as React from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
-import { usePrefersReducedMotion } from "@/lib/browser-state";
+import { useMotionSetting } from "@/lib/browser-state";
 
 export function ScrollReveal({
   children,
@@ -14,7 +14,7 @@ export function ScrollReveal({
   className?: string;
   delay?: number;
 }) {
-  const reducedMotion = usePrefersReducedMotion();
+  const { paused: reducedMotion } = useMotionSetting();
   return (
     <motion.div
       initial={reducedMotion ? false : { opacity: 0, y: 20 }}

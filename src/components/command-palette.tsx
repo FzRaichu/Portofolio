@@ -1,14 +1,8 @@
 "use client";
 
 import * as React from "react";
-import {
-  Code2,
-  FolderGit2,
-  Home,
-  Mail,
-  Sparkles,
-  User,
-} from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Code2, FolderGit2, Home, Mail, User } from "lucide-react";
 import { GithubIcon } from "@/components/icons";
 import {
   Command,
@@ -28,11 +22,12 @@ const NAV_ITEMS: { label: string; id: SectionId; icon: typeof Home }[] = [
   { label: "About", id: "about", icon: User },
   { label: "Skills", id: "skills", icon: Code2 },
   { label: "Projects", id: "projects", icon: FolderGit2 },
-  { label: "Fun stuff", id: "fun", icon: Sparkles },
   { label: "Contact", id: "contact", icon: Mail },
 ];
 
 export function CommandPalette() {
+  const pathname = usePathname();
+  const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const { goToId } = useSectionNav();
   const { content } = useEditMode();
@@ -50,7 +45,8 @@ export function CommandPalette() {
 
   const go = (id: SectionId) => {
     setOpen(false);
-    goToId(id);
+    if (pathname === "/") goToId(id);
+    else router.push(`/#${id}`);
   };
 
   return (
@@ -78,23 +74,38 @@ export function CommandPalette() {
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading="Links">
-            {content.githubUrl && <CommandItem
-              onSelect={() => { setOpen(false); window.open(content.githubUrl, "_blank", "noopener,noreferrer"); }}
-              value="GitHub"
-            >
-              <GithubIcon />
-              Open GitHub
-            </CommandItem>}
-            {content.resumeUrl && <CommandItem
-              onSelect={() => {
-                setOpen(false);
-                window.open(content.resumeUrl, "_blank", "noopener,noreferrer");
-              }}
-              value="Resume"
-            >
-              <FolderGit2 />
-              View resume
-            </CommandItem>}
+            {content.githubUrl && (
+              <CommandItem
+                onSelect={() => {
+                  setOpen(false);
+                  window.open(
+                    content.githubUrl,
+                    "_blank",
+                    "noopener,noreferrer",
+                  );
+                }}
+                value="GitHub"
+              >
+                <GithubIcon />
+                Open GitHub
+              </CommandItem>
+            )}
+            {content.resumeUrl && (
+              <CommandItem
+                onSelect={() => {
+                  setOpen(false);
+                  window.open(
+                    content.resumeUrl,
+                    "_blank",
+                    "noopener,noreferrer",
+                  );
+                }}
+                value="Resume"
+              >
+                <FolderGit2 />
+                View resume
+              </CommandItem>
+            )}
           </CommandGroup>
         </CommandList>
       </Command>

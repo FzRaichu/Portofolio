@@ -1,66 +1,101 @@
 "use client";
-
-import * as React from "react";
-import { CardSpinReveal } from "@/components/card-spin-reveal";
+import { useState } from "react";
+import { Search } from "lucide-react";
 import { ProjectCard } from "@/components/project-card";
 import { ProjectDialog } from "@/components/project-dialog";
 import { ScrollReveal } from "@/components/scroll-reveal";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { projects, type Project } from "@/lib/data";
-
 export function Projects() {
-  const [selected, setSelected] = React.useState<Project | null>(null);
-  const [open, setOpen] = React.useState(false);
-  const [query, setQuery] = React.useState("");
-  const [tag, setTag] = React.useState("All");
+  const [selected, setSelected] = useState<Project | null>(null);
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [tag, setTag] = useState("All");
   const tags = [...new Set(projects.flatMap((project) => project.tags))];
-  const filteredProjects = projects.filter((project) =>
-    (tag === "All" || project.tags.includes(tag)) &&
-    `${project.title} ${project.summary} ${project.tags.join(" ")}`.toLowerCase().includes(query.trim().toLowerCase())
+  const filtered = projects.filter(
+    (project) =>
+      (tag === "All" || project.tags.includes(tag)) &&
+      (project.title + " " + project.summary + " " + project.tags.join(" "))
+        .toLowerCase()
+        .includes(query.trim().toLowerCase()),
   );
-
   return (
-    <section
-      id="projects"
-      className="mx-auto flex min-h-full max-w-5xl flex-col justify-center overflow-x-hidden px-6 py-24"
-    >
-      <ScrollReveal>
-        <p className="mb-2 font-mono text-sm text-muted-foreground">
-          03 — projects
-        </p>
-        <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-          Things I&apos;ve built
-        </h2>
-        <p className="mt-3 max-w-lg text-muted-foreground">
-          Click a card for the full story — the problem, my approach, and
-          what I learned.
-        </p>
-      </ScrollReveal>
-
-      <div className="mt-8 space-y-4">
-        <Input aria-label="Search projects" placeholder="Search projects or technologies..." value={query} onChange={(event) => setQuery(event.target.value)} className="max-w-md bg-card/60" />
-        <div className="flex flex-wrap gap-2" aria-label="Filter projects by technology">
-          {["All", ...tags].map((item) => <Button key={item} variant={tag === item ? "default" : "outline"} size="sm" aria-pressed={tag === item} onClick={() => setTag(item)}>{item}</Button>)}
-        </div>
-        <p role="status" className="text-xs text-muted-foreground">{filteredProjects.length} project{filteredProjects.length === 1 ? "" : "s"}</p>
-      </div>
-      {filteredProjects.length === 0 && <p className="mt-6 text-sm text-muted-foreground">No matching projects. Try another search or technology.</p>}
-      <div className="mt-8 grid gap-6 sm:grid-cols-2">
-        {filteredProjects.map((project, i) => (
-          <CardSpinReveal key={project.slug} delay={i * 0.12}>
-            <ProjectCard
-              project={project}
-              onOpen={() => {
-                setSelected(project);
-                setOpen(true);
-              }}
+    <section id="projects" data-chapter className="chapter projects-chapter">
+      <div className="chapter-inner">
+        <ScrollReveal className="projects-heading">
+          <div>
+            <p className="eyebrow">04 / SELECTED EXPLORATIONS</p>
+            <h2 className="section-title">
+              Ideas,
+              <br />
+              <span className="text-dim">taking shape.</span>
+            </h2>
+          </div>
+          <p className="section-intro">
+            A space for things I build and lessons along the way. These sample
+            cards will make room for real project stories.
+          </p>
+        </ScrollReveal>
+        <div className="project-toolbar">
+          <div
+            className="project-filters"
+            aria-label="Filter projects by technology"
+          >
+            {["All", ...tags].map((item) => (
+              <button
+                key={item}
+                type="button"
+                aria-pressed={tag === item}
+                onClick={() => setTag(item)}
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+          <label className="project-search">
+            <Search size={15} />
+            <input
+              aria-label="Search projects"
+              placeholder="Find a project"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
             />
-          </CardSpinReveal>
-        ))}
+          </label>
+        </div>
+        <p role="status" className="section-note project-count">
+          {filtered.length} project{filtered.length === 1 ? "" : "s"} · sample
+          content
+        </p>
+        {filtered.length === 0 && (
+          <div className="project-empty">
+            <p>No matching projects.</p>
+            <button
+              type="button"
+              className="text-link"
+              onClick={() => {
+                setTag("All");
+                setQuery("");
+              }}
+            >
+              Clear filters ↗
+            </button>
+          </div>
+        )}
+        <div className="work-grid">
+          {filtered.map((project, index) => (
+            <ScrollReveal key={project.slug} delay={index * 0.06}>
+              <ProjectCard
+                project={project}
+                index={projects.indexOf(project)}
+                onOpen={() => {
+                  setSelected(project);
+                  setOpen(true);
+                }}
+              />
+            </ScrollReveal>
+          ))}
+        </div>
+        <ProjectDialog project={selected} open={open} onOpenChange={setOpen} />
       </div>
-
-      <ProjectDialog project={selected} open={open} onOpenChange={setOpen} />
     </section>
   );
 }

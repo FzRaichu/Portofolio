@@ -3,15 +3,13 @@
 import * as React from "react";
 import { Inbox, LogOut, Pencil, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { LANDING_DISMISSED_KEY } from "@/components/landing-gate";
 import { AUTO_EDIT_KEY, useEditMode } from "@/lib/edit-mode";
 import type { ContactMessage } from "@/lib/messages";
 import { useVisitor } from "@/lib/visitor";
 import { writeSessionValue } from "@/lib/browser-state";
 
 export function EditToggle() {
-  const { isOwner, isEditing, setIsEditing, saving, saveError } =
-    useEditMode();
+  const { isOwner, isEditing, setIsEditing, saving, saveError } = useEditMode();
   const { setVisitorName } = useVisitor();
   const [loggingOut, setLoggingOut] = React.useState(false);
   const [unreadCount, setUnreadCount] = React.useState(0);
@@ -33,28 +31,34 @@ export function EditToggle() {
     setLoggingOut(true);
     setLogoutError(null);
     try {
-    const response = await fetch("/api/auth/logout", { method: "POST" });
-    if (!response.ok) throw new Error("Couldn't log out. Please try again.");
-    // Drop the flags the landing gate reads, then do a full document
-    // navigation. router.refresh() would clear the owner session but keep
-    // client state, and the gate is already mounted with visible=false — only
-    // a fresh load makes it show again.
-    setVisitorName(null);
-    writeSessionValue(AUTO_EDIT_KEY, null);
-    writeSessionValue(LANDING_DISMISSED_KEY, null);
-    // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- a hard reload is the point: it remounts the gate and resets the section scroller
-    window.location.href = "/";
+      const response = await fetch("/api/auth/logout", { method: "POST" });
+      if (!response.ok) throw new Error("Couldn't log out. Please try again.");
+      // Reload to clear owner editor and inbox state before returning to the
+      // public portfolio. The optional access dialog stays closed.
+      setVisitorName(null);
+      writeSessionValue(AUTO_EDIT_KEY, null);
+      // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- a hard reload clears private client state
+      window.location.href = "/";
     } catch (error) {
-      setLogoutError(error instanceof Error ? error.message : "Couldn't reach the server.");
+      setLogoutError(
+        error instanceof Error ? error.message : "Couldn't reach the server.",
+      );
       setLoggingOut(false);
     }
   }
 
   return (
     <div className="fixed right-3 bottom-3 z-50 flex max-w-[calc(100vw-1.5rem)] flex-wrap justify-end gap-2 rounded-xl border border-border bg-background/90 p-2 shadow-lg backdrop-blur-md sm:right-6 sm:bottom-6">
-      {logoutError && <span role="alert" className="text-xs text-destructive">{logoutError}</span>}
+      {logoutError && (
+        <span role="alert" className="text-xs text-destructive">
+          {logoutError}
+        </span>
+      )}
       {isEditing && saveError && (
-        <span role="alert" className="max-w-64 rounded-full bg-destructive/10 px-3 py-1 text-xs text-destructive backdrop-blur-md">
+        <span
+          role="alert"
+          className="max-w-64 rounded-full bg-destructive/10 px-3 py-1 text-xs text-destructive backdrop-blur-md"
+        >
           {saveError}
         </span>
       )}
@@ -90,12 +94,12 @@ export function EditToggle() {
       <Button
         variant="outline"
         className="bg-background/80 backdrop-blur-md"
-        title="Log out and return to the landing page"
+        title="Log out and return to the portfolio"
         onClick={handleLogout}
         disabled={loggingOut}
       >
         <LogOut className="size-4" />
-        {loggingOut ? "Exiting..." : "Exit to landing"}
+        {loggingOut ? "Exiting..." : "Log out"}
       </Button>
     </div>
   );

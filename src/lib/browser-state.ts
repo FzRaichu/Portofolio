@@ -6,7 +6,11 @@ const SESSION_EVENT = "portfolio:session-change";
 const emptySubscribe = () => () => {};
 
 export function useHydrated() {
-  return useSyncExternalStore(emptySubscribe, () => true, () => false);
+  return useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
 }
 
 function subscribeSession(onChange: () => void) {
@@ -44,11 +48,11 @@ export function useSessionValue(key: string) {
   const value = useSyncExternalStore(
     subscribeSession,
     () => readSessionValue(key),
-    () => null
+    () => null,
   );
   const setValue = useCallback(
     (next: string | null) => writeSessionValue(key, next),
-    [key]
+    [key],
   );
   return [value, setValue] as const;
 }
@@ -64,6 +68,38 @@ export function usePrefersReducedMotion() {
   return useSyncExternalStore(
     subscribeMotion,
     () => window.matchMedia(REDUCED_MOTION_QUERY).matches,
-    () => true
+    () => true,
+  );
+}
+
+export function useMotionSetting() {
+  const reduced = usePrefersReducedMotion();
+  const [choice, setChoice] = useSessionValue("portfolio_motion_paused");
+  const paused = reduced || choice === "1";
+  return { paused, reduced, toggle: () => setChoice(paused ? "0" : "1") };
+}
+
+const SMALL_SCREEN_QUERY = "(max-width: 1023px)";
+function subscribeScreen(onChange: () => void) {
+  const query = window.matchMedia(SMALL_SCREEN_QUERY);
+  query.addEventListener("change", onChange);
+  return () => query.removeEventListener("change", onChange);
+}
+export function useSmallScreen() {
+  return useSyncExternalStore(
+    subscribeScreen,
+    () => window.matchMedia(SMALL_SCREEN_QUERY).matches,
+    () => true,
+  );
+}
+function subscribeVisibility(onChange: () => void) {
+  document.addEventListener("visibilitychange", onChange);
+  return () => document.removeEventListener("visibilitychange", onChange);
+}
+export function usePageVisible() {
+  return useSyncExternalStore(
+    subscribeVisibility,
+    () => document.visibilityState === "visible",
+    () => false,
   );
 }

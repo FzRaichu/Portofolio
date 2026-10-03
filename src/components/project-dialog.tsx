@@ -23,11 +23,15 @@ export function ProjectDialog({
   onOpenChange: (open: boolean) => void;
 }) {
   if (!project) return null;
+  const sample = project.slug.startsWith("project-");
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-xl">
         <DialogHeader>
+          {sample && (
+            <p className="eyebrow">SAMPLE PROJECT · CONTENT PREVIEW</p>
+          )}
           <DialogTitle className="font-mono">{project.title}</DialogTitle>
           <DialogDescription>{project.description}</DialogDescription>
         </DialogHeader>
@@ -56,7 +60,7 @@ export function ProjectDialog({
         </div>
 
         <div className="flex gap-3 pt-2">
-          {project.github && (
+          {!sample && project.github && (
             <Button
               variant="outline"
               size="sm"
@@ -69,7 +73,7 @@ export function ProjectDialog({
               }
             />
           )}
-          {project.live && (
+          {!sample && project.live && (
             <Button
               size="sm"
               nativeButton={false}

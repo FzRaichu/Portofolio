@@ -14,6 +14,7 @@ import { getSiteContent } from "@/lib/kv";
 import { SectionNavProvider } from "@/lib/section-nav";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/session";
 import { VisitorProvider } from "@/lib/visitor";
+import { JourneyControls } from "@/components/journey-controls";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,8 +46,12 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col overflow-x-hidden">
-        <a href="#main-content" className="sr-only fixed top-3 left-3 z-110 rounded-lg bg-primary px-4 py-2 text-primary-foreground focus:not-sr-only">Skip to content</a>
-        <StarfieldMount />
+        <a
+          href="#main-content"
+          className="sr-only fixed top-3 left-3 z-110 rounded-lg bg-primary px-4 py-2 text-primary-foreground focus:not-sr-only"
+        >
+          Skip to content
+        </a>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
@@ -57,11 +62,15 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             <VisitorProvider>
               <EditModeProvider isOwner={isOwner} initialContent={content}>
                 <SectionNavProvider>
+                  <StarfieldMount />
                   <LandingGate />
                   <CommandPalette />
                   <Nav />
-                  <main id="main-content" tabIndex={-1} className="flex-1">{children}</main>
+                  <main id="main-content" tabIndex={-1} className="flex-1">
+                    {children}
+                  </main>
                   <EditToggle />
+                  <JourneyControls />
                 </SectionNavProvider>
               </EditModeProvider>
             </VisitorProvider>

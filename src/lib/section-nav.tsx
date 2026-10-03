@@ -1,19 +1,15 @@
 "use client";
 
 import * as React from "react";
+import { useMotionValue, type MotionValue } from "motion/react";
+import { CHAPTERS } from "@/lib/journey";
 
-export const SECTION_IDS = [
-  "home",
-  "about",
-  "skills",
-  "projects",
-  "fun",
-  "contact",
-] as const;
+export const SECTION_IDS = CHAPTERS.map((chapter) => chapter.id);
 
 export type SectionId = (typeof SECTION_IDS)[number];
 
 type SectionNavContextValue = {
+  progress: MotionValue<number>;
   activeIndex: number;
   activeId: SectionId;
   requestIndex: number | null;
@@ -24,7 +20,7 @@ type SectionNavContextValue = {
 };
 
 const SectionNavContext = React.createContext<SectionNavContextValue | null>(
-  null
+  null,
 );
 
 export function SectionNavProvider({
@@ -33,6 +29,7 @@ export function SectionNavProvider({
   children: React.ReactNode;
 }) {
   const [activeIndex, setActiveIndexState] = React.useState(0);
+  const progress = useMotionValue(0);
   const [requestIndex, setRequestIndex] = React.useState<number | null>(null);
 
   const setActiveIndex = React.useCallback((index: number) => {
@@ -48,11 +45,12 @@ export function SectionNavProvider({
 
   const goToId = React.useCallback(
     (id: SectionId) => goToIndex(SECTION_IDS.indexOf(id)),
-    [goToIndex]
+    [goToIndex],
   );
 
   const value = React.useMemo<SectionNavContextValue>(
     () => ({
+      progress,
       activeIndex,
       activeId: SECTION_IDS[activeIndex],
       requestIndex,
@@ -61,7 +59,15 @@ export function SectionNavProvider({
       goToIndex,
       goToId,
     }),
-    [activeIndex, requestIndex, setActiveIndex, clearRequest, goToIndex, goToId]
+    [
+      progress,
+      activeIndex,
+      requestIndex,
+      setActiveIndex,
+      clearRequest,
+      goToIndex,
+      goToId,
+    ],
   );
 
   return (
