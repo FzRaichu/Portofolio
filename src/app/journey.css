@@ -1,17 +1,37 @@
 /* Public journey: all essential content stays in the document above the scene. */
 :root {
-  --space-ink: #17313a;
-  --space-dim: #54717a;
-  --space-accent: #167687;
-  --space-line: #b5c9ce;
-  --space-panel: #f3f8fae8;
+  --space-ink: #302824;
+  --space-dim: #75635b;
+  --space-accent: #9c4b2d;
+  --space-rose: #994f62;
+  --space-gold: #956326;
+  --space-line: #d5c5b8;
+  --space-panel: #fff8f0eb;
+  --space-gradient: linear-gradient(115deg, #87432b, #a64f48 55%, #864859);
+  --space-title-gradient: linear-gradient(
+    120deg,
+    #302824 10%,
+    #974827 58%,
+    #995267 95%
+  );
+  --space-button-ink: #fff8f0;
 }
 .dark {
-  --space-ink: #e2edf0;
-  --space-dim: #8fabb4;
-  --space-accent: #9bd9df;
-  --space-line: #b4dce021;
-  --space-panel: #0c141deb;
+  --space-ink: #f3e8dc;
+  --space-dim: #b9a59a;
+  --space-accent: #edab80;
+  --space-rose: #cf8e9b;
+  --space-gold: #e9c893;
+  --space-line: #eac8ad29;
+  --space-panel: #1b1716eb;
+  --space-gradient: linear-gradient(115deg, #edc393, #edab80 48%, #d995a3);
+  --space-title-gradient: linear-gradient(
+    120deg,
+    #f7ebda 10%,
+    #edb084 58%,
+    #d694a5 95%
+  );
+  --space-button-ink: #281b17;
 }
 body {
   isolation: isolate;
@@ -35,11 +55,22 @@ body {
   inset: 0;
 }
 .space-static {
-  background: radial-gradient(
-    ellipse at 73% 42%,
-    color-mix(in srgb, var(--space-accent) 9%, transparent),
-    transparent 57%
-  );
+  background:
+    radial-gradient(
+      ellipse at 78% 30%,
+      color-mix(in srgb, var(--space-rose) 13%, transparent),
+      transparent 52%
+    ),
+    radial-gradient(
+      ellipse at 66% 68%,
+      color-mix(in srgb, var(--space-accent) 12%, transparent),
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 8% 92%,
+      color-mix(in srgb, var(--space-gold) 6%, transparent),
+      transparent 48%
+    );
 }
 .static-stars {
   position: absolute;
@@ -363,6 +394,16 @@ body {
   color: var(--space-ink);
   text-wrap: balance;
 }
+@supports (background-clip: text) {
+  .hero-name {
+    background: var(--space-title-gradient);
+    background-clip: text;
+    color: transparent;
+  }
+  .hero-name[contenteditable="true"] {
+    color: var(--space-ink);
+  }
+}
 .hero-role {
   display: flex;
   align-items: center;
@@ -394,16 +435,17 @@ body {
   padding: 12px 22px;
   border: 1px solid color-mix(in srgb, var(--space-accent) 50%, transparent);
   border-radius: 3px;
-  color: var(--background);
-  background: var(--space-accent);
+  color: var(--space-button-ink);
+  background: var(--space-gradient);
+  background-size: 160% 100%;
   font-size: 12px;
   font-weight: 500;
   transition:
-    background 0.2s,
+    background-position 0.3s,
     transform 0.2s;
 }
 .action-primary:hover {
-  background: var(--space-ink);
+  background-position: 100% 50%;
   transform: translateY(-2px);
 }
 .action-primary:disabled {
@@ -727,7 +769,17 @@ body {
   overflow: hidden;
   display: grid;
   place-items: center;
-  background: radial-gradient(ellipse at center, #27767d2c, transparent 75%);
+  background:
+    radial-gradient(
+      ellipse at 25% 25%,
+      color-mix(in srgb, var(--space-gold) 18%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse at 75% 85%,
+      color-mix(in srgb, var(--space-accent) 20%, transparent),
+      transparent 75%
+    );
   border-bottom: 1px solid var(--space-line);
 }
 .work-art svg {
@@ -735,16 +787,38 @@ body {
   height: 80%;
   stroke: var(--space-accent);
   stroke-width: 0.7;
-  filter: drop-shadow(0 0 9px #94d6e14f);
+  filter: drop-shadow(
+    0 0 9px color-mix(in srgb, var(--space-accent) 30%, transparent)
+  );
 }
 .work-art circle {
   fill: var(--space-accent);
 }
 .work-art-1 {
-  background: radial-gradient(ellipse at center, #5269a52e, transparent 75%);
+  background:
+    radial-gradient(
+      ellipse at 25% 25%,
+      color-mix(in srgb, var(--space-rose) 22%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse at 80% 80%,
+      color-mix(in srgb, var(--space-accent) 12%, transparent),
+      transparent 75%
+    );
 }
 .work-art-2 {
-  background: radial-gradient(ellipse at center, #618b6a26, transparent 75%);
+  background:
+    radial-gradient(
+      ellipse at 25% 25%,
+      color-mix(in srgb, var(--space-gold) 22%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse at 80% 80%,
+      color-mix(in srgb, var(--space-rose) 12%, transparent),
+      transparent 75%
+    );
 }
 .work-art-grid {
   position: absolute;

@@ -1,6 +1,6 @@
 # Portfolio checkpoint
 
-Updated: 3 October 2026.
+Updated: 5 October 2026.
 
 ## Completed: Day 1
 
@@ -18,6 +18,13 @@ The implementation and checkpoint are pushed to `origin/codex/day-01-layout`. PR
 - Existing contact action, profile editing, and private inbox retained. Removed unused entrance/particle/card animation components and updated README guidance.
 
 ## Verification performed
+
+### Day 1 follow-up: warm portfolio palette
+
+- Replaced cyan and blue accents with warm charcoal, ivory, copper, dusty rose, and champagne. Shared theme tokens now carry the palette into navigation, forms, dialogs, and owner controls; light mode uses cream surfaces with darker copper text.
+- Added restrained gradients to the name, primary buttons, project artwork, and static atmosphere. Three.js stars and the sculpture use matching warm colors, including a copper-to-rose shader gradient with champagne highlights. Existing scroll choreography is retained.
+- Verified desktop 1280×800 and mobile 390×844, light/dark themes, project artwork, contact surfaces, and Still view. No horizontal overflow observed; Still view removes the Canvas. No real contact message was submitted.
+- Lint, typecheck, all **13 tests**, and the final production build passed. Existing unconfigured Redis persistence warning remains. Updated preview and screenshots are available in the Codex handoff.
 
 ### Day 1 follow-up: animated chapter transitions
 

@@ -14,11 +14,21 @@ import { sceneAtProgress } from "@/lib/journey";
 const starVertex =
   "attribute float aSize; varying float vAlpha; void main() { vec4 view = modelViewMatrix * vec4(position, 1.0); vAlpha = aSize * 0.5 + 0.35; gl_Position = projectionMatrix * view; gl_PointSize = clamp(aSize * 24.0 / -view.z, 1.0, 3.2); }";
 const starFragment =
-  "varying float vAlpha; void main() { float radius = length(gl_PointCoord - 0.5); float alpha = smoothstep(0.5, 0.05, radius) * vAlpha; gl_FragColor = vec4(0.64, 0.84, 0.93, alpha); }";
+  "varying float vAlpha; void main() { float radius = length(gl_PointCoord - 0.5); float alpha = smoothstep(0.5, 0.05, radius) * vAlpha; gl_FragColor = vec4(0.94, 0.82, 0.7, alpha); }";
 const coreVertex =
   "varying vec3 vPosition; void main() { vPosition = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }";
-const coreFragment =
-  "uniform float uTime; uniform float uEnergy; varying vec3 vPosition; void main() { float signal = pow(0.5 + 0.5 * sin(vPosition.y * 3.0 + vPosition.x * 2.0 - uTime * 0.7), 5.0); gl_FragColor = vec4(0.7, 0.97, 1.0, (0.16 + signal * 0.7) * uEnergy); }";
+const coreFragment = `
+  uniform float uTime;
+  uniform float uEnergy;
+  varying vec3 vPosition;
+  void main() {
+    float signal = pow(0.5 + 0.5 * sin(vPosition.y * 3.0 + vPosition.x * 2.0 - uTime * 0.7), 5.0);
+    float gradient = smoothstep(-1.5, 1.5, vPosition.y + vPosition.x * 0.35);
+    vec3 color = mix(vec3(0.95, 0.39, 0.18), vec3(0.72, 0.3, 0.43), gradient);
+    color = mix(color, vec3(1.0, 0.8, 0.53), signal * 0.65);
+    gl_FragColor = vec4(color, (0.16 + signal * 0.7) * uEnergy);
+  }
+`;
 function makeStars(count: number) {
   const positions = new Float32Array(count * 3);
   const sizes = new Float32Array(count);
@@ -159,7 +169,7 @@ export function SpaceScene({
           />
           <meshBasicMaterial
             ref={wireMaterial}
-            color="#7adfe8"
+            color="#e9a16d"
             wireframe
             transparent
             opacity={0.19}
@@ -173,7 +183,7 @@ export function SpaceScene({
           />
           <meshBasicMaterial
             ref={echoMaterial}
-            color="#b7dfe4"
+            color="#c98196"
             wireframe
             transparent
             opacity={0.11}
