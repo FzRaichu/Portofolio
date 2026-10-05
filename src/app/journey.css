@@ -739,142 +739,6 @@ body {
   margin: 15px 0;
   font-size: 9px;
 }
-.work-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
-}
-.work-card {
-  height: 100%;
-  background: var(--space-panel);
-  border: 1px solid var(--space-line);
-  border-radius: 4px;
-  overflow: hidden;
-  transition:
-    border-color 0.3s,
-    transform 0.3s;
-}
-.work-card:hover {
-  transform: translateY(-5px);
-  border-color: color-mix(in srgb, var(--space-accent) 45%, transparent);
-}
-.work-card-main {
-  width: 100%;
-  text-align: left;
-  display: block;
-}
-.work-art {
-  height: 195px;
-  position: relative;
-  overflow: hidden;
-  display: grid;
-  place-items: center;
-  background:
-    radial-gradient(
-      ellipse at 25% 25%,
-      color-mix(in srgb, var(--space-gold) 18%, transparent),
-      transparent 70%
-    ),
-    radial-gradient(
-      ellipse at 75% 85%,
-      color-mix(in srgb, var(--space-accent) 20%, transparent),
-      transparent 75%
-    );
-  border-bottom: 1px solid var(--space-line);
-}
-.work-art svg {
-  width: 90%;
-  height: 80%;
-  stroke: var(--space-accent);
-  stroke-width: 0.7;
-  filter: drop-shadow(
-    0 0 9px color-mix(in srgb, var(--space-accent) 30%, transparent)
-  );
-}
-.work-art circle {
-  fill: var(--space-accent);
-}
-.work-art-1 {
-  background:
-    radial-gradient(
-      ellipse at 25% 25%,
-      color-mix(in srgb, var(--space-rose) 22%, transparent),
-      transparent 70%
-    ),
-    radial-gradient(
-      ellipse at 80% 80%,
-      color-mix(in srgb, var(--space-accent) 12%, transparent),
-      transparent 75%
-    );
-}
-.work-art-2 {
-  background:
-    radial-gradient(
-      ellipse at 25% 25%,
-      color-mix(in srgb, var(--space-gold) 22%, transparent),
-      transparent 70%
-    ),
-    radial-gradient(
-      ellipse at 80% 80%,
-      color-mix(in srgb, var(--space-rose) 12%, transparent),
-      transparent 75%
-    );
-}
-.work-art-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(var(--space-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--space-line) 1px, transparent 1px);
-  background-size: 34px 34px;
-  opacity: 0.25;
-  mask-image: radial-gradient(ellipse at center, #000, transparent 80%);
-}
-.work-art-number {
-  position: absolute;
-  top: 17px;
-  left: 18px;
-  font: 9px var(--font-geist-mono);
-  color: var(--space-dim);
-}
-.work-art-type {
-  position: absolute;
-  bottom: 14px;
-  left: 18px;
-  font: 7px var(--font-geist-mono);
-  color: var(--space-dim);
-  letter-spacing: 0.14em;
-}
-.work-open {
-  position: absolute;
-  right: 16px;
-  top: 13px;
-  color: var(--space-dim);
-}
-.work-card-copy {
-  padding: 23px 20px;
-}
-.work-card-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.work-card-heading h3 {
-  font-size: 17px;
-  font-weight: 450;
-  letter-spacing: -0.025em;
-}
-.work-card-heading > span {
-  color: var(--space-dim);
-  font-size: 13px;
-}
-.work-card-copy p {
-  font-size: 11px;
-  line-height: 1.9;
-  color: var(--space-dim);
-  margin-top: 12px;
-  min-height: 42px;
-}
 .work-tags {
   display: flex;
   flex-wrap: wrap;
@@ -882,18 +746,6 @@ body {
   font: 8px var(--font-geist-mono);
   color: var(--space-dim);
   margin-top: 23px;
-}
-.work-links {
-  display: flex;
-  gap: 20px;
-  border-top: 1px solid var(--space-line);
-  padding: 12px 20px;
-}
-.work-links a {
-  font-size: 10px;
-  display: inline-flex;
-  gap: 6px;
-  align-items: center;
 }
 .project-empty {
   min-height: 240px;
@@ -1278,17 +1130,6 @@ body {
     font-size: 9px;
     padding-inline: 9px;
   }
-  .work-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-  .work-art {
-    height: 210px;
-  }
-  .work-card-copy p {
-    font-size: 12px;
-    min-height: 0;
-  }
   .work-tags {
     font-size: 9px;
   }
@@ -1327,7 +1168,6 @@ html[data-motion="still"] *::after {
   scroll-behavior: auto !important;
 }
 @media (prefers-reduced-motion: reduce) {
-  .work-card:hover,
   .action-primary:hover {
     transform: none;
   }

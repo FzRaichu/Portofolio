@@ -19,6 +19,15 @@ The implementation and checkpoint are pushed to `origin/codex/day-01-layout`. PR
 
 ## Verification performed
 
+### Day 1 follow-up: project thumbnail gallery
+
+- Replaced the project grid with a responsive carousel inspired by the curved thumbnail gallery at [Daniel Kiss](https://danielkiss.hu/). The center preview is prominent, adjacent previews tilt into depth, and native horizontal scrolling keeps vertical page navigation available.
+- Added previous/next arrows, a position indicator, mouse dragging, touch scrolling, Left/Right and Home/End keys, and named slide groups. Filters reset the gallery to the first matching project; empty and single-project states remain usable.
+- Clicking a thumbnail opens a larger preview and project story with its own previous/next arrows and a persistent Close control. Escape dismisses the dialog, focus returns to its opening thumbnail, and mobile details scroll within the dialog. Still view and reduced-motion preferences disable the new transitions.
+- Added three original, explicitly labeled SVG concept previews, optional thumbnail source/alt fields, and a missing-thumbnail fallback. These are illustrative sample interfaces, not completed project screenshots. README documents how to replace them with actual project images. Removed the old card component and unused grid/fan styles.
+- Browser checks covered desktop 1440×1000 and mobile 390×844: arrow boundaries, keyboard End, native horizontal scrolling, mouse drag without accidental opening, detail navigation, Escape and Close, focus restoration, no horizontal overflow, search with no results, single-project filters, and light/dark plus Still view. Physical touchscreen testing remains part of Day 7.
+- Lint, typecheck, all **13 existing tests**, and the production build passed. Existing unconfigured Redis warning remains; no backend or deployment changes were made.
+
 ### Day 1 follow-up: warm portfolio palette
 
 - Replaced cyan and blue accents with warm charcoal, ivory, copper, dusty rose, and champagne. Shared theme tokens now carry the palette into navigation, forms, dialogs, and owner controls; light mode uses cream surfaces with darker copper text.

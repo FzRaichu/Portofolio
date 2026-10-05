@@ -45,21 +45,24 @@ export type Project = {
   github?: string;
   live?: string;
   featured?: boolean;
+  thumbnail?: { src: string; alt: string };
 };
 
 export const projects: Project[] = [
   {
     slug: "project-one",
+    thumbnail: {
+      src: "/projects/sample-web.svg",
+      alt: "Sample editorial website concept with copper typography and an orbital illustration",
+    },
     title: "Project One",
     summary: "A short one-line hook describing what this project does.",
     description:
       "A longer description of the project — what it is, who it's for, and what makes it interesting.",
-    problem:
-      "Describe the problem you set out to solve and why it mattered.",
+    problem: "Describe the problem you set out to solve and why it mattered.",
     approach:
       "Describe your technical approach, key decisions, and any interesting challenges you solved.",
-    learnings:
-      "What you learned building this — technically or otherwise.",
+    learnings: "What you learned building this — technically or otherwise.",
     tags: ["Next.js", "TypeScript", "PostgreSQL"],
     github: "https://github.com/yourusername/project-one",
     live: "https://project-one.example.com",
@@ -67,32 +70,36 @@ export const projects: Project[] = [
   },
   {
     slug: "project-two",
+    thumbnail: {
+      src: "/projects/sample-data.svg",
+      alt: "Sample analytics interface concept with a chart and data summary cards",
+    },
     title: "Project Two",
     summary: "A short one-line hook describing what this project does.",
     description:
       "A longer description of the project — what it is, who it's for, and what makes it interesting.",
-    problem:
-      "Describe the problem you set out to solve and why it mattered.",
+    problem: "Describe the problem you set out to solve and why it mattered.",
     approach:
       "Describe your technical approach, key decisions, and any interesting challenges you solved.",
-    learnings:
-      "What you learned building this — technically or otherwise.",
+    learnings: "What you learned building this — technically or otherwise.",
     tags: ["Python", "Machine Learning", "Flask"],
     github: "https://github.com/yourusername/project-two",
     featured: true,
   },
   {
     slug: "project-three",
+    thumbnail: {
+      src: "/projects/sample-workspace.svg",
+      alt: "Sample workspace interface concept with a board of task cards",
+    },
     title: "Project Three",
     summary: "A short one-line hook describing what this project does.",
     description:
       "A longer description of the project — what it is, who it's for, and what makes it interesting.",
-    problem:
-      "Describe the problem you set out to solve and why it mattered.",
+    problem: "Describe the problem you set out to solve and why it mattered.",
     approach:
       "Describe your technical approach, key decisions, and any interesting challenges you solved.",
-    learnings:
-      "What you learned building this — technically or otherwise.",
+    learnings: "What you learned building this — technically or otherwise.",
     tags: ["React", "Express", "MongoDB"],
     github: "https://github.com/yourusername/project-three",
   },

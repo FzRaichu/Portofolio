@@ -77,27 +77,6 @@
     rotate(calc(var(--reveal-progress, 0) * var(--row-direction, 1) * 3deg));
   transform-origin: left center;
 }
-.chapter-motion-enabled .work-grid {
-  perspective: 1000px;
-}
-.chapter-motion-enabled .work-grid > :nth-child(3n + 1) {
-  --card-direction: -1;
-}
-.chapter-motion-enabled .work-grid > :nth-child(3n + 2) {
-  --card-direction: 0;
-}
-.chapter-motion-enabled .work-grid > :nth-child(3n) {
-  --card-direction: 1;
-}
-.chapter-motion-enabled .work-grid > .scroll-reveal {
-  transform: translate3d(
-      calc(var(--reveal-progress, 0) * var(--card-direction, 0) * -130px),
-      calc(var(--reveal-progress, 0) * var(--reveal-order, 1) * 100px),
-      calc(var(--reveal-progress, 0) * -120px)
-    )
-    rotate(calc(var(--reveal-progress, 0) * var(--card-direction, 0) * 12deg));
-  transform-origin: center bottom;
-}
 .chapter-motion-enabled .contact-form-panel {
   transform: translateY(calc(var(--chapter-enter, 0) * 160px))
     scale(calc(1 - var(--chapter-enter, 0) * 0.08));
@@ -122,7 +101,6 @@
   .chapter-motion-enabled .scroll-reveal,
   .chapter-motion-enabled .about-copy,
   .chapter-motion-enabled .skill-row,
-  .chapter-motion-enabled .work-grid > .scroll-reveal,
   .chapter-motion-enabled .contact-form-panel {
     transform: translateY(calc(var(--chapter-enter, 0) * 30px));
   }
@@ -138,7 +116,6 @@
   .chapter-motion-enabled .scroll-reveal,
   .chapter-motion-enabled .about-copy,
   .chapter-motion-enabled .skill-row,
-  .chapter-motion-enabled .work-grid > .scroll-reveal,
   .chapter-motion-enabled .contact-form-panel,
   .chapter-motion-enabled .section-title .text-dim {
     transform: none;

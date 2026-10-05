@@ -1,13 +1,10 @@
 "use client";
 import { useState } from "react";
 import { Search } from "lucide-react";
-import { ProjectCard } from "@/components/project-card";
-import { ProjectDialog } from "@/components/project-dialog";
+import { ProjectGallery } from "@/components/project-gallery";
 import { ScrollReveal } from "@/components/scroll-reveal";
-import { projects, type Project } from "@/lib/data";
+import { projects } from "@/lib/data";
 export function Projects() {
-  const [selected, setSelected] = useState<Project | null>(null);
-  const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [tag, setTag] = useState("All");
   const tags = [...new Set(projects.flatMap((project) => project.tags))];
@@ -25,14 +22,13 @@ export function Projects() {
           <div>
             <p className="eyebrow">04 / SELECTED EXPLORATIONS</p>
             <h2 className="section-title">
-              Ideas,
-              <br />
+              Ideas,{" "}
               <span className="text-dim">taking shape.</span>
             </h2>
           </div>
           <p className="section-intro">
-            A space for things I build and lessons along the way. These sample
-            cards will make room for real project stories.
+            A closer look at the things I build. Explore the gallery, then open
+            a project for the story behind it.
           </p>
         </ScrollReveal>
         <div className="project-toolbar">
@@ -80,21 +76,12 @@ export function Projects() {
             </button>
           </div>
         )}
-        <div className="work-grid">
-          {filtered.map((project, index) => (
-            <ScrollReveal key={project.slug} delay={index * 0.06}>
-              <ProjectCard
-                project={project}
-                index={projects.indexOf(project)}
-                onOpen={() => {
-                  setSelected(project);
-                  setOpen(true);
-                }}
-              />
-            </ScrollReveal>
-          ))}
-        </div>
-        <ProjectDialog project={selected} open={open} onOpenChange={setOpen} />
+        {filtered.length > 0 && (
+          <ProjectGallery
+            key={filtered.map((project) => project.slug).join(",")}
+            projects={filtered}
+          />
+        )}
       </div>
     </section>
   );
